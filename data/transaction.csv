@@ -1,0 +1,6 @@
+id,client_id,produit,quantite,prix,date
+1,101,ProduitA,2,30.00,2024-11-25
+2,102,ProduitB,-1,20.00,2024-11-26
+3,103,ProduitC,,10.00,2024-11-26
+4,104,ProduitD,3,25.00,INVALID_DATE
+5,105,ProduitE,4,not_a_number,2024-11-27

@@ -1,0 +1,7 @@
+[
+    {"campaign_id": "camp1", "clicks": 120, "impressions": 1000, "date": "2024-11-25"},
+    {"campaign_id": "camp2", "clicks": 200, "impressions": "not_a_number", "date": "2024-11-25"},
+    {"campaign_id": "camp3", "clicks": null, "impressions": 2500, "date": "2024-11-26"},
+    {"campaign_id": "camp4", "clicks": 50, "impressions": 500},
+    {"campaign_id": "camp5", "clicks": 400, "impressions": 3000, "date": "2024-11-27"}
+]

@@ -1,0 +1,7 @@
+[
+    {"post_id": 1, "user": "client1", "contenu": "ProduitA est incroyable!", "likes": 10, "date": "2024-11-25"},
+    {"post_id": 2, "user": "client2", "contenu": "ProduitB ne m'a pas impressionné.", "likes": null, "date": "2024-11-25"},
+    {"post_id": 3, "user": "client3", "contenu": "ProduitC est abordable.", "likes": 15, "date": null},
+    {"post_id": 4, "user": null, "contenu": "ProduitD est trop cher.", "likes": 2, "date": "2024-11-26"},
+    {"post_id": 5, "user": "client5", "contenu": "ProduitE est parfait pour offrir.", "likes": "not_a_number", "date": "2024-11-27"}
+]
