@@ -105,3 +105,138 @@ spark-submit --master "local[*]" visualisation_silver.py
 5. Visualisation des données Gold :
 spark-submit --master "local[*]" visualisation_gold.py
 
+
+# API 
+
+Cette API expose des métriques calculées à partir des données de la couche Gold via des points d'entrée RESTful. Elle est sécurisée à l'aide de **JSON Web Tokens (JWT)**.
+
+## Configuration des URLs
+
+Les URLs de l'API sont configurées dans le fichier `urls.py` comme suit :
+
+```python
+from django.urls import path
+from .views import (
+    TotalSalesPerProductView,
+    StatusCodeCountsView,
+    AvgLikesPerProductView,
+    CampaignMetricsView,
+)
+
+urlpatterns = [
+    path("total-sales-per-product/", TotalSalesPerProductView.as_view(), name="total_sales_per_product"),
+    path("status-code-counts/", StatusCodeCountsView.as_view(), name="status_code_counts"),
+    path("avg-likes-per-product/", AvgLikesPerProductView.as_view(), name="avg_likes_per_product"),
+    path("campaign-metrics/", CampaignMetricsView.as_view(), name="campaign_metrics"),
+]
+```
+
+## Points d'entrée disponibles
+
+### 1. **Total des ventes par produit**
+- **URL** : `/api/total-sales-per-product/`
+- **Méthode HTTP** : `GET`
+- **Description** : Renvoie le total des ventes pour chaque produit.
+- **Exemple de réponse** :
+```json
+[
+    {"produit": "Produit A", "total_ventes": 1500.0},
+    {"produit": "Produit B", "total_ventes": 3200.0}
+]
+```
+
+---
+
+### 2. **Nombre de requêtes par code de statut HTTP**
+- **URL** : `/api/status-code-counts/`
+- **Méthode HTTP** : `GET`
+- **Description** : Renvoie le nombre de requêtes pour chaque code de statut HTTP.
+- **Exemple de réponse** :
+```json
+[
+    {"status_code": 200, "count_requests": 150},
+    {"status_code": 404, "count_requests": 25}
+]
+```
+
+---
+
+### 3. **Moyenne des likes par produit**
+- **URL** : `/api/avg-likes-per-product/`
+- **Méthode HTTP** : `GET`
+- **Description** : Renvoie la moyenne des likes pour chaque produit.
+- **Exemple de réponse** :
+```json
+[
+    {"contenu": "Post A", "avg_likes": 75.3},
+    {"contenu": "Post B", "avg_likes": 54.1}
+]
+```
+
+---
+
+### 4. **Métriques des campagnes publicitaires**
+- **URL** : `/api/campaign-metrics/`
+- **Méthode HTTP** : `GET`
+- **Description** : Renvoie le total des clics et impressions pour chaque campagne.
+- **Exemple de réponse** :
+```json
+[
+    {"campaign_id": "Campagne 1", "total_clicks": 300, "total_impressions": 1200},
+    {"campaign_id": "Campagne 2", "total_clicks": 450, "total_impressions": 1400}
+]
+```
+
+---
+
+## Authentification via JWT
+
+Les points d'entrée sont sécurisés par **JSON Web Tokens (JWT)**. Vous devez inclure un token valide dans l'en-tête de chaque requête.
+
+### Obtenir un token
+- **URL** : `/api/token/`
+- **Méthode HTTP** : `POST`
+- **Exemple de corps de requête** :
+```json
+{
+    "username": "votre_nom_utilisateur",
+    "password": "votre_mot_de_passe"
+}
+```
+- **Exemple de réponse** :
+```json
+{
+    "access": "votre_token_access",
+    "refresh": "votre_token_refresh"
+}
+```
+
+### Rafraîchir un token
+- **URL** : `/api/token/refresh/`
+- **Méthode HTTP** : `POST`
+- **Exemple de corps de requête** :
+```json
+{
+    "refresh": "votre_token_refresh"
+}
+```
+- **Exemple de réponse** :
+```json
+{
+    "access": "nouveau_token_access"
+}
+```
+
+---
+
+## Tester l'API avec Postman
+
+1. Configurez un environnement Postman avec l'URL de base : `http://127.0.0.1:8000/api/`.
+2. Obtenez un token d'accès via l'URL `/api/token/`.
+3. Ajoutez l'en-tête suivant à vos requêtes :
+   ```
+   Authorization: Bearer <votre_token_access>
+   ```
+4. Effectuez des requêtes `GET` vers les points d'entrée pour récupérer les données.
+
+
